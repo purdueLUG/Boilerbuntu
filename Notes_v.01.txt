@@ -1,0 +1,13 @@
+BoilerBuntu-v.01-i386.iso is Ubuntu but with a different background and color scheme.
+
+The packages that were listed in package that are not included by default are also bundled.
+
+All files in BoilerBuntu.zip are files from the BoilerBuntu project.
+
+Steps to creating Boiler Buntu
+
+The selected answer:
+http://askubuntu.com/questions/48535/how-to-customize-live-ubuntu-cd
+
+Alternatively you could use this guide. I couldn't get it working. I also wouldn't recommend it since the above link makes things much easier.
+https://help.ubuntu.com/community/LiveCDCustomization

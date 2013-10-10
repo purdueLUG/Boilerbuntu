@@ -1,0 +1,99 @@
+#!/bin/bash
+#   This is the script to build BoilerBuntu 13.04
+#
+#   Copyright 2013 PurdueLUG
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+set -e
+if which glib-compile-schemas > /dev/null; then
+	echo "Checking for glib stuff.  Installed"
+else
+	echo "You need the program glib-compile-schemas."
+	exit 1
+fi
+if which unsquashfs > /dev/null; then
+	echo "Checking for Squshfs.  Installed."
+else
+	echo "You need the squashfs-tools.  For debian/ubuntu type sudo apt-get install squashfs-tools.  For other distros it could be different."
+	exit 1
+fi
+if which git > /dev/null; then
+	echo "Checking for git.  Installed."
+else
+	echo "You need git.  For debian/ubuntu type sudo apt-get install git"
+	exit 1
+fi
+if which mkisofs > /dev/null; then
+	echo "Checking for mkisofs.  Installed."
+else
+	echo "You need mkisofs."
+	exit 1
+fi
+if [ "$(id -u)" != 0 ]; then
+	echo "This script needs to be run as root" 1>&2
+	exit 1
+fi
+read -p "Do you want 32bit or 64bit? (Put 32 for 32bit and 64 for 64bit): " bit
+read -p "Are you sure you want $bit bit? (Y/n) " yn
+if [ "$yn" == "n" ] || [ "$yn" == "N" ] || [ "$yn" == "No" ] || [ "$yn" == "no" ] || [ "$yn" == "NO" ]; then
+	echo "Startover"
+	exit 1	
+else
+	echo "Good"
+fi
+if [ "$bit" == "64" ]; then
+	echo "Downloading 64"
+	wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-amd64.iso
+elif [ "$bit" == "32" ]; then
+	echo "Downloaidng 32"
+	wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-i386.iso
+else
+	echo "Please enter only 32 or 64"
+	exit
+fi
+mkdir Boilerbuntu
+mv ubuntu-13.04-desktop-*.iso Boilerbuntu/oldbuntu.iso
+cd Boilerbuntu
+mkdir mnt
+sudo mount -o loop oldbuntu.iso mnt
+mkdir extract-cd
+sudo rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
+sudo unsquashfs mnt/casper/filesystem.squashfs
+sudo mv squashfs-root edit
+sudo git clone https://github.com/purdueLUG/BoilerBuntu.git
+cd BoilerBuntu
+sudo unzip BoilerBuntu.zip
+sudo cp Themes/logos/bunutu_2.png ../edit/usr/share/backgrounds
+sudo cp scripts/hdrive/* ../edit/usr/bin/
+sudo cp Themes/background_changes/com.canonical.unity-greeter.gschema.xml ../edit/usr/share/glib-2.0/schemas
+sudo cp Themes/background_changes/10_ubuntu-settings.gschema.override ../edit/usr/share/glib-2.0/schemas/
+sudo cp -r Themes/theme_options/op1/plymouth/ ../edit/lib
+sudo glib-compile-schemas ../edit/usr/share/glib-2.0/schemas
+cd ..
+chmod a+w extract-cd/casper/filesystem.manifest
+sudo chroot edit dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest
+sudo cp extract-cd/casper/filesystem.manifest extract-cd/casper/filesystem.manifest-desktop
+sudo sed -i '/ubiquity/d' extract-cd/casper/filesystem.manifest-desktop
+sudo sed -i '/casper/d' extract-cd/casper/filesystem.manifest-desktop
+sudo mksquashfs edit extract-cd/casper/filesystem.squashfs
+sudo mksquashfs edit extract-cd/casper/filesystem.squashfs -b 1048576
+sudo chmod a+w extract-cd/casper/filesystem.size
+printf $(sudo du -sx --block-size=1 edit | cut -f1) > extract-cd/casper/filesystem.size
+cd extract-cd
+sudo mkisofs -D -r -V "BoilerBuntu" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o ../../BoilerBuntu-13.04-$bit-bit.iso .
+cd ..
+sudo umount mnt
+cd ..
+sudo rm -rf Boilerbuntu
+sudo chmod 666 BoilerBuntu*.iso

@@ -44,26 +44,36 @@ if [ "$(id -u)" != 0 ]; then
 	echo "This script needs to be run as root" 1>&2
 	exit 1
 fi
-read -p "Do you want 32bit or 64bit? (Put 32 for 32bit and 64 for 64bit): " bit
-read -p "Are you sure you want $bit bit? (Y/n) " yn
-if [ "$yn" == "n" ] || [ "$yn" == "N" ] || [ "$yn" == "No" ] || [ "$yn" == "no" ] || [ "$yn" == "NO" ]; then
-	echo "Startover"
-	exit 1	
+read -p "Do you already have an Ubuntu 13.04 iso? (y/N) " iso
+
+if [ "$iso" == "y" ] || [ "$iso" == "Y" ] || [ "$iso" == "Yes" ] || [ "$iso" == "yes" ] || [ "$iso" == "YES" ]; then 
+	read -p "Enter the path to the iso: " isopath
+	cp $isopath oldbuntu.iso
 else
-	echo "Good"
+	read -p "Do you want 32bit or 64bit? (Put 32 for 32bit and 64 for 64bit): " bit
+	read -p "Are you sure you want $bit bit? (y/N) " yn
+	if [ "$yn" == "y" ] || [ "$yn" == "Y" ] || [ "$yn" == "Yes" ] || [ "$yn" == "yes" ] || [ "$yn" == "YES" ]; then
+        	echo "Good"
+	else
+        	echo "Startover."
+        	exit 1
+	fi
+
+	if [ "$bit" == "64" ]; then
+		echo "Downloading 64"
+		wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-amd64.iso
+	elif [ "$bit" == "32" ]; then
+		echo "Downloaidng 32"
+		wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-i386.iso
+	else
+		echo "Please enter only 32 or 64"
+		exit
+	fi
+	mv ubuntu-13.04-desktop-*.iso oldbuntu.iso
 fi
-if [ "$bit" == "64" ]; then
-	echo "Downloading 64"
-	wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-amd64.iso
-elif [ "$bit" == "32" ]; then
-	echo "Downloaidng 32"
-	wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-i386.iso
-else
-	echo "Please enter only 32 or 64"
-	exit
-fi
+
 mkdir Boilerbuntu
-mv ubuntu-13.04-desktop-*.iso Boilerbuntu/oldbuntu.iso
+mv oldbuntu.iso Boilerbuntu/
 cd Boilerbuntu
 mkdir mnt
 sudo mount -o loop oldbuntu.iso mnt

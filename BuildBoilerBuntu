@@ -83,7 +83,6 @@ sudo unsquashfs mnt/casper/filesystem.squashfs
 sudo mv squashfs-root edit
 sudo git clone https://github.com/purdueLUG/BoilerBuntu.git
 cd BoilerBuntu
-sudo unzip BoilerBuntu.zip
 sudo cp Themes/logos/bunutu_2.png ../edit/usr/share/backgrounds
 sudo cp scripts/hdrive/* ../edit/usr/bin/
 sudo cp Themes/background_changes/com.canonical.unity-greeter.gschema.xml ../edit/usr/share/glib-2.0/schemas

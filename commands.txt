@@ -1,0 +1,12 @@
+#use "SRCDIR" for the source directory of all BoilerBuntu files
+#use "NEWROOT" for the root directory of the BoilerBuntu file system
+
+
+sudo cp "SRCDIR"/Themes/logos/bunutu_2.png "NEWROOT"/usr/share/backgrounds/
+sudo cp "SRCDIR"/scripts/hdrive/H_Drive_Map.sh "NEWROOT"/usr/bin/
+sudo cp "SRCDIR"/scripts/hdrive/H_Drive_Unmap.sh "NEWROOT"/usr/bin/
+sudo cp "SRCDIR"/Themes/background_changes/com.canonical.unity-greeter.gschema.xml "NEWROOT"/usr/share/glib-2.0/schemas/
+sudo cp "SRCDIR"/Themes/background_changes/10_ubuntu-settings.gschema.override "NEWROOT"/usr/share/glib-2.0/schemas/
+sudo cp -r "SRCDIR"/Themes/theme_options/op1/plymouth/ "NEWROOT"/lib/
+sudo rm "NEWROOT"/lib/plymouth/ubuntu_logo.png
+sudo glib-compile-schemas "NEWROOT"/usr/share/glib-2.0/schemas/

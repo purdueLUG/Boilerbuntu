@@ -1,0 +1,38 @@
+Account Info:
+************
+
+Full Name: <Your Name>
+Email Address: <someone@purdue.edu>
+
+Recieving Email:
+****************
+
+Server Type: IMAP
+
+Server: mymail.purdue.edu
+Username: <someone>
+
+Use Secure Connection: SSL encryption
+
+Authentication Type: Password
+
+Recieving Options
+*****************
+
+Whatever you want.
+
+
+Sending Email
+**************
+
+Server Type: SMTP
+
+Server: smtp.purdue.edu
+(check server requires authentication)
+
+Use Secure Connection: SSL encryption
+
+Authentication Type: PLAIN
+Username: <someone>
+
+(Do what you want with Defaults, Security, and IMAP Headers. The important info is above.)

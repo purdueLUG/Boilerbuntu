@@ -48,4 +48,4 @@ echo "sshfs $p_username@maven.itap.purdue.edu: $localmount" | sudo tee /usr/bin/
 echo "sudo umount $localmount" | sudo tee /usr/bin/hdrive_unmount
 sudo chmod 777 /usr/bin/hdrive_unmount
 sudo chmod 777 /usr/bin/hdrive_mount
-
+zenity --info --text="The H Drive mounting scripts are now installed.  You can mount and unmount your H Drive by running <b>hdrive_mount</b> or <b>hdrive_unmount</b> in a terminal."

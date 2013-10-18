@@ -3,13 +3,13 @@
 
 #Install zenity if it isnt already
 if [ -z $(which zenity) ]
-    then
-        read -e -p "Zenity is needed to continue installation, would you like to install it?:[y/n]"
-            if [ "$REPLY" = "y" ]
-                    then
-                            sudo apt-get install zenity
-                                fi
-                                fi
+then
+	read -e -p "Zenity is needed to continue installation, would you like to install it?:[y/n]"
+	if [ "$REPLY" = "y" ]
+	then
+		sudo apt-get install zenity
+	fi
+fi
 
 #Admin password needed for install and chmod
 password=$(zenity --password --title="Administrator password for $(whoami)")
@@ -26,7 +26,7 @@ sudo chmod 777 $localmount
 #Generate ssh-key if it doesn't exist
 if [ ! -e ~/.ssh/id_rsa.pub ]
 then
-    ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
+	ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
 fi
 
 #Copy the ssh-key to the server with bit of piping magic, StrictHostKeyChecking is disabled for the initial connection
@@ -34,11 +34,11 @@ cat ~/.ssh/id_rsa.pub | sshpass -p$p_password ssh -oStrictHostKeyChecking=no $p_
 
 #Install sshfs if it isn't already
 if [ -z $(which sshfs) ]
-    then
-        (sudo apt-get install sshpass sshfs|awk '{print "#" $0}'
-            echo "100"
-                )|zenity --progress --percentage=0 --auto-close --title="Installing sshfs"
-                fi
+then
+	(sudo apt-get install sshpass sshfs|awk '{print "#" $0}'
+	echo "100"
+	)|zenity --progress --percentage=0 --auto-close --title="Installing sshfs"
+fi
 
 #Add user to the fuse group (possibly unnecessary)
 sudo usermod -aG fuse $(whoami)

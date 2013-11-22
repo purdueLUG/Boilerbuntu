@@ -1,13 +1,15 @@
 #Configures and installs hdrive_mount and hdrive_unmount scripts graphically
 #2013-10-16 - BoilerBuntu
 
-#Install zenity if it isnt already
+#Install zenity if it isn't already
 if [ -z $(which zenity) ]
 then
-	read -e -p "Zenity is needed to continue installation, would you like to install it?:[y/n]"
+	read -e -p "Zenity is needed to continue installation.  Would you like to install it?:[y/n]"
 	if [ "$REPLY" = "y" ]
 	then
 		sudo apt-get install zenity
+	else
+		exit
 	fi
 fi
 
@@ -19,18 +21,18 @@ p_credentials=$(zenity --forms --add-entry="Career Account Username" --add-passw
 p_username=$(echo $p_credentials|cut -d'|' -f1)
 p_password=$(echo $p_credentials|cut -d'|' -f2)
  
+
 #Create the mounting directory
 echo $password | sudo -S mkdir $localmount
 sudo chmod 777 $localmount
   
+
 #Generate ssh-key if it doesn't exist
 if [ ! -e ~/.ssh/id_rsa.pub ]
 then
 	ssh-keygen -f ~/.ssh/id_rsa -t rsa -N ''
 fi
-
-#Copy the ssh-key to the server with bit of piping magic, StrictHostKeyChecking is disabled for the initial connection
-cat ~/.ssh/id_rsa.pub | sshpass -p$p_password ssh -oStrictHostKeyChecking=no $p_username@maven.itap.purdue.edu '/bin/cat >> ~/.ssh/authorized_keys'
+sudo chmod -R 300 ~/.ssh
 
 #Install sshfs if it isn't already
 if [ -z $(which sshfs) ]
@@ -39,6 +41,17 @@ then
 	echo "100"
 	)|zenity --progress --percentage=0 --auto-close --title="Installing sshfs"
 fi
+
+
+#Mount the H_drive so we can copy the ssh-key into the proper location. StrictHostKeyChecking is disabled for the initial connection
+echo $p_password|sshfs -o StrictHostKeyChecking=no,password_stdin $p_username@picket.ics.purdue.edu:/home/campus/$p_username $localmount
+#Create $localmount/.ssh if it doesn't exist, append ssh-key
+if [ ! -e $localmount/.ssh ]
+then
+	mkdir $localmount/.ssh
+fi
+cat ~/.ssh/id_rsa.pub >> $localmount/.ssh/authorized_keys
+
 
 #Add user to the fuse group (possibly unnecessary)
 sudo usermod -aG fuse $(whoami)

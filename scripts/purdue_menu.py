@@ -41,7 +41,7 @@ url="http://api.hfs.purdue.edu/menus/v1/locations/"+dining_court+"/"+time.strfti
 urllib.urlopen(url)
 dining_court_obj = objectify.fromstring(urllib.urlopen(url).read())
 
-if len(sys.argv) < 3 or sys_argv[2] == "-h":
+if len(sys.argv) < 3 or sys.argv[2] == "-h":
     barHelp(dining_court_obj)
     
 bars = sys.argv[2:len(sys.argv)]    

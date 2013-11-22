@@ -21,6 +21,7 @@ def diningHelp():
     print "Usage: purdue_menu COURT BAR1 [BAR2] ..."
     print "To get a list of bars: purdue_menu COURT -h\n"
     print "Example usage: purdue_menu hillenbrand \"Granite Grill\""
+    print "Example usage: purdue_menu earhart \"*\""
     print "Available dining courts: ",
     for dining_court in dining_courts:
         print dining_court+", ",

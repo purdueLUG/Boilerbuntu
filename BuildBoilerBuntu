@@ -92,6 +92,7 @@ sudo git clone https://github.com/purdueLUG/BoilerBuntu.git
 cd BoilerBuntu
 sudo cp Themes/logos/bunutu_2.png ../edit/usr/share/backgrounds
 sudo cp scripts/hdrive/* ../edit/usr/bin/
+sudo cp scripts/purdue_menu.py ../edit/usr/bin/
 sudo cp Themes/background_changes/com.canonical.unity-greeter.gschema.xml ../edit/usr/share/glib-2.0/schemas
 sudo cp Themes/background_changes/10_ubuntu-settings.gschema.override ../edit/usr/share/glib-2.0/schemas/
 sudo cp -r Themes/theme_options/op1/plymouth/ ../edit/lib

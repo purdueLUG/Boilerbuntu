@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python
 #Evan Widloski - 2013 - Purdue Menu Grabber
 import urllib
 from lxml import objectify

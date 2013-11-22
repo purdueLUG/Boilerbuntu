@@ -64,7 +64,7 @@ if bars_param[0] == "*":
 
 
 
-hour = time.strftime("%H")
+hour = int(time.strftime("%H"))
 
 if hour > 16:
     meal=dining_court_obj.Dinner

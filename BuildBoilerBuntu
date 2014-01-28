@@ -47,6 +47,7 @@ fi
 read -p "Do you want 32bit or 64bit? (Put 32 for 32bit and 64 for 64bit): " bit
 read -p "Which version (13.04 or 13.10) of Ubuntu do you want? " version
 read -p "Do you already have an Ubuntu iso? (y/N) " iso
+read -p "Do you want to keep the Ubuntu iso after BoilerBuntu is made? (y/N) " keep
 
 if [ "$iso" == "y" ] || [ "$iso" == "Y" ] || [ "$iso" == "Yes" ] || [ "$iso" == "yes" ] || [ "$iso" == "YES" ]; then 
 	read -p "Enter the path to the iso (including the file itself): " isopath
@@ -76,7 +77,12 @@ else
 		echo "Please enter only 32 or 64 for bit and only 13.04 and 13.10 for version"
 		exit 1
 	fi
-	mv ubuntu-*-desktop-*.iso oldbuntu.iso
+	
+	if [ $keep == "y" ] || [ $keep == "Y" ]; then
+		cp ubuntu-*-desktop-*.iso oldbuntu.iso
+	else
+		mv ubuntu-*-desktop-*.iso oldbuntu.iso
+	fi
 fi
 
 mkdir Boilerbuntu
@@ -95,6 +101,7 @@ sudo cp scripts/hdrive/* ../edit/usr/bin/
 sudo cp scripts/purdue_menu.py ../edit/usr/bin/
 sudo cp Themes/background_changes/com.canonical.unity-greeter.gschema.xml ../edit/usr/share/glib-2.0/schemas
 sudo cp Themes/background_changes/10_ubuntu-settings.gschema.override ../edit/usr/share/glib-2.0/schemas/
+sudo rm -rf ../edit/lib/plymouth
 sudo cp -r Themes/theme_options/op1/plymouth/ ../edit/lib
 sudo glib-compile-schemas ../edit/usr/share/glib-2.0/schemas
 cd ..

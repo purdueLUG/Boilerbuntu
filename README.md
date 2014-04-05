@@ -1,13 +1,13 @@
 #Boilerbuntu
 A Purdue themed Ubuntu distribution with a collection of scripts useful to Purdue students.
 
-###Building
+##Building
 Run the 'BuildBoilerBuntu' script to build.
 
 * Dependencies
-.* squashfs
-.* mkisofs
-.* git
+  * squashfs
+  * mkisofs
+	* git
 
 ####Alternative Method
 

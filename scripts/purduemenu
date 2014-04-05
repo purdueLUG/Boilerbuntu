@@ -1,21 +1,22 @@
 #!/usr/bin/python
 #Evan Widloski - 2013 - Purdue Menu Grabber
+
 import urllib
 from lxml import objectify
-from collections import defaultdict
+import simplejson
 import time
 import sys
+import re
 
-
-def getItems(court_meal,bar_in): #Grab menu items provided [dining
+def getItems(court_meal,bar_in): #Grab menu items from a specific dining court + meal
     items=[]
-    for bar in court_meal.getchildren():
-        if bar.Name == bar_in:
-            for item in bar.Items.getchildren():
-                items.append(item.Name)
+    for bar in court_meal:
+        if bar["Name"] == bar_in:
+            for item in bar["Items"]:
+                items.append(item["Name"])
     return items
 
-
+#General help and usage
 def diningHelp():
     dining_courts=["earhart","ford","hillenbrand","wiley","windsor"]
     print "Usage: purdue_menu COURT BAR1 [BAR2] ..."
@@ -25,60 +26,63 @@ def diningHelp():
     print "Available dining courts: ",
     for dining_court in dining_courts:
         print dining_court+", ",
-    
+   
+#Get all bars available at a dining court 
 def getBars(dining_court_obj):
     bars=[]
     for bar in dining_court_obj.Lunch.getchildren():
         bars.append(bar)
     return bars
 
-def barHelp(dining_court_obj):
+#Print out list of bars at a dining court
+def barHelp(j):
     print "Available bars: ",
-    bars=getBars(dining_court_obj)
-    for bar in bars:
-        print bar.Name+", ",
+    for bar in j["Lunch"]:
+        print bar["Name"]+", ",
+
+def main():
+#Print help if not enough arguments or -h is specified
+	if len(sys.argv) < 2 or re.search("-h","".join(sys.argv)):
+			diningHelp()
+			sys.exit(0)
+
+#Get dining court from user input
+	dining_court = sys.argv[1]
+
+#Connect to API and read in JSON data for a specific dining court and day
+	url="http://api.hfs.purdue.edu/menus/v1/locations/"+dining_court+"/"+time.strftime("%m-%d-%Y")
+	data = urllib.urlopen(url)
+	j = simplejson.load(data)
+
+#If no bar specified, print out list of bars at this dining court
+	if len(sys.argv) < 3:
+			barHelp(j)
+			sys.exit(0)
+
+#Put all user-specified bars into an array    
+	bars_param = sys.argv[2:len(sys.argv)]
+#If user specifies all bars, get all bars
+	if bars_param[0] == "*":
+			bars_param=[]
+			bars = getBars(j)
+			for bar in bars:
+					bars_param.append(bar["Name"])
 
 
-if len(sys.argv) < 2 or sys.argv[1] == "-h":
-    diningHelp()
-    sys.exit(0)
+#Calculate meal by using the current time
+	hour = int(time.strftime("%H"))
+	if hour > 16:
+			meal = j["Dinner"]
+	else:
+			meal = j["Lunch"]
+			
+	menus=[]
+	for bar_param in bars_param:
+			menus.append(getItems(meal,bar_param))
 
-dining_court = sys.argv[1]
+	for menu in menus:
+			for item in menu[:3]:
+					print item+", ",
 
-url="http://api.hfs.purdue.edu/menus/v1/locations/"+dining_court+"/"+time.strftime("%m-%d-%Y")
-urllib.urlopen(url)
-dining_court_obj = objectify.fromstring(urllib.urlopen(url).read())
-
-if len(sys.argv) < 3 or sys.argv[2] == "-h":
-    barHelp(dining_court_obj)
-    sys.exit(0)
-    
-bars_param = sys.argv[2:len(sys.argv)]
-if bars_param[0] == "*":
-    bars_param=[]
-    bars = getBars(dining_court_obj)
-    for bar in bars:
-        bars_param.append(bar.Name)
-
-
-
-
-
-hour = int(time.strftime("%H"))
-
-if hour > 16:
-    meal=dining_court_obj.Dinner
-else:
-    meal=dining_court_obj.Lunch
-    
-menus=[]
-for bar_param in bars_param:
-    menus.append(getItems(meal,bar_param))
- 
-
-for menu in menus:
-    for item in menu[:3]:
-        print item+", ",
-
-
-
+if __name__ == "__main__":
+	main()

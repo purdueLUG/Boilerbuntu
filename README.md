@@ -7,7 +7,7 @@ Run the 'BuildBoilerBuntu' script to build.
 * Dependencies
   * squashfs
   * mkisofs
-	* git
+  * git
 
 ####Alternative Method
 

@@ -1,7 +1,15 @@
-There is a script to build the iso and it should work but I have only tested on my own computers.  Just run it by running the BuildBoilerBuntu file.
-This script requires squashfs, mkisofs, and git.  If it doesn't work for you please tell me so I can can check it out.
+#Boilerbuntu
+A Purdue themed Ubuntu distribution with a collection of scripts useful to Purdue students.
 
-This is the other way of building it:
+###Building
+Run the 'BuildBoilerBuntu' script to build.
+
+* Dependencies
+.* squashfs
+.* mkisofs
+.* git
+
+####Alternative Method
 
 If you are running Ubuntu, install Ubuntu-Builder.
 Set up Ubuntu-Builder with Ubuntu 13.04 iso or BoilerBuntu iso.

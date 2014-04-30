@@ -85,16 +85,29 @@ else
 	fi
 fi
 
-mkdir Boilerbuntu
+if [ ! -d "Boilerbuntu" ]
+	then
+	mkdir Boilerbuntu
+fi
+
 mv oldbuntu.iso Boilerbuntu/
+if [ ! -d "mnt" ]
+	then
+	mkdir mnt
+fi
+
 cd Boilerbuntu
-mkdir mnt
-sudo mount -o loop oldbuntu.iso mnt
-mkdir extract-cd
-sudo rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
-sudo unsquashfs mnt/casper/filesystem.squashfs
-sudo mv squashfs-root edit
-sudo git clone https://github.com/purdueLUG/BoilerBuntu.git
+fuseiso oldbuntu.iso mnt
+
+if [ ! -d "extract-cd" ]
+	then
+	mkdir extract-cd
+fi
+
+rsync --exclude=/casper/filesystem.squashfs -a mnt/ extract-cd
+unsquashfs mnt/casper/filesystem.squashfs
+mv squashfs-root edit
+git clone https://github.com/purdueLUG/BoilerBuntu.git
 cd BoilerBuntu
 sudo cp Themes/logos/bunutu_2.png ../edit/usr/share/backgrounds
 sudo cp scripts/hdrive/* ../edit/usr/bin/

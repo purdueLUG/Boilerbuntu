@@ -63,16 +63,16 @@ else
 
 	if [ "$bit" == "64" ] && [ "$version" == "13.04" ]; then
 		echo "Downloading 64bit 13.04"
-		wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-amd64.iso
+		wget ftp://ohm.ecn.purdue.edu/original_isos/ubuntu-13.04-desktop-amd64.iso
 	elif [ "$bit" == "32" ] && [ "$version" == "13.04" ]; then
 		echo "Downloaidng 32bit 13.04"
-		wget http://releases.ubuntu.com/raring/ubuntu-13.04-desktop-i386.iso
+		wget ftp://ohm.ecn.purdue.edu/original_isos/ubuntu-13.04-desktop-i386.iso
 	elif [ "$bit" == "64" ] && [ "$version" == "13.10" ]; then
 		echo "Downloading 64bit 13.10"
-		wget http://releases.ubuntu.com/saucy/ubuntu-13.10-desktop-amd64.iso
+		wget ftp://ohm.ecn.purdue.edu/original_isos/ubuntu-13.10-desktop-amd64.iso
 	elif [ "$bit" == "32" ] && [ "$version" == "13.10" ]; then
 		echo "Downloading 32bit 13.10"
-		wget http://releases.ubuntu.com/saucy/ubuntu-13.10-desktop-i386.iso
+		wget ftp://ohm.ecn.purdue.edu/original_isos/ubuntu-13.10-desktop-i386.iso
 	else
 		echo "Please enter only 32 or 64 for bit and only 13.04 and 13.10 for version"
 		exit 1

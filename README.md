@@ -2,10 +2,11 @@
 A Purdue themed Ubuntu distribution with a collection of scripts useful to Purdue students.
 
 ## Dependencies
-    - unsquashfs (provided by squashfs-tools)
-    - mksquashfs (provided by squashfs-tools)
-    - glib-compile-schemas (provided by glib2)
-    - mkisofs (provided by genisoimage)
+
+- unsquashfs (provided by squashfs-tools)
+- mksquashfs (provided by squashfs-tools)
+- glib-compile-schemas (provided by glib2)
+- mkisofs (provided by genisoimage)
 
 ## Building
 

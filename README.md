@@ -37,4 +37,3 @@ You can find these after booting BoilerBuntu, or in `squashfs-root` on the build
 `/usr/share/ubiquity/gtk` - GTK XML .ui files for ubiquity installer (use glade to edit and view these files)
 
 `/usr/lib/ubiquity/plugins` - ubiquity python scripts for defining logic on each installation page
-

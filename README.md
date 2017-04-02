@@ -1,5 +1,13 @@
-#Boilerbuntu
+# Boilerbuntu
 A Purdue themed Ubuntu distribution with a collection of scripts useful to Purdue students.
+
+## Useful directories
+
+You can find these after booting BoilerBuntu, or in `squashfs-root` on the build computer after building BoilerBuntu.
+
+`/usr/share/ubiquity/gtk` - GTK XML .ui files for ubiquity installer (use glade to edit and view these files)
+
+`/usr/lib/ubiquity/plugins` - ubiquity python scripts for defining logic on each installation page
 
 ##Building
 Run the 'BuildBoilerBuntu' script to build.
@@ -7,9 +15,8 @@ Run the 'BuildBoilerBuntu' script to build.
 * Dependencies
   * squashfs
   * mkisofs
-  * git
 
-####Alternative Method
+#### Alternative Method
 
 If you are running Ubuntu, install Ubuntu-Builder.
 Set up Ubuntu-Builder with Ubuntu 13.04 iso or BoilerBuntu iso.

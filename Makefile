@@ -112,4 +112,4 @@ build_iso:
 	sudo mksquashfs squashfs-root extract-cd/casper/filesystem.squashfs
 	sudo mkisofs -D -r -V "BoilerBuntu" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $(target_iso) extract-cd
 	sudo umount mnt
-	sudo chmod 666 BoilerBuntu.iso
+	sudo chmod 666 $(target_iso)

@@ -88,13 +88,13 @@ unpack_iso: clean
 
 # copy edited files into squashfs-root
 install_boilerbuntu:
-	cp Themes/logos/bunutu_2.png squashfs-root/usr/share/backgrounds
-	cp scripts/hdrive/* squashfs-root/usr/bin/
-	cp scripts/purdue_menu.py squashfs-root/usr/bin/
-	cp Themes/background_changes/com.canonical.unity-greeter.gschema.xml squashfs-root/usr/share/glib-2.0/schemas
-	cp Themes/background_changes/10_ubuntu-settings.gschema.override squashfs-root/usr/share/glib-2.0/schemas/
+	cp boilerbuntu_source/Themes/logos/bunutu_2.png squashfs-root/usr/share/backgrounds
+	cp boilerbuntu_source/scripts/hdrive/* squashfs-root/usr/bin/
+	cp boilerbuntu_source/scripts/purdue_menu.py squashfs-root/usr/bin/
+	cp boilerbuntu_source/Themes/background_changes/com.canonical.unity-greeter.gschema.xml squashfs-root/usr/share/glib-2.0/schemas
+	cp boilerbuntu_source/Themes/background_changes/10_ubuntu-settings.gschema.override squashfs-root/usr/share/glib-2.0/schemas/
 	rm -rf squashfs-root/lib/plymouth
-	cp -r Themes/theme_options/op1/plymouth/ squashfs-root/lib
+	cp -r boilerbuntu_source/Themes/theme_options/op1/plymouth/ squashfs-root/lib
 	glib-compile-schemas squashfs-root/usr/share/glib-2.0/schemas
 	chmod a+w extract-cd/casper/filesystem.manifest
 	sudo chroot squashfs-root dpkg-query -W --showformat='${Package} ${Version}\n' > extract-cd/casper/filesystem.manifest

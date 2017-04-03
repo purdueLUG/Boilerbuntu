@@ -74,7 +74,7 @@ verify_dependencies:
 	fi
 
 # unpack source_iso to squashfs-root
-unpack: clean
+unpack_iso: clean
 	# mount the iso
 	sudo mount -o loop $(source_iso) mnt
 

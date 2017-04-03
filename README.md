@@ -21,15 +21,15 @@ Build the Boilerbuntu iso
 Alternatively, you can extract the source iso, make some changes, then build the Boilerbuntu iso
 
     # unpack everything to `squashfs-root`
-    make unpack_iso
+    make unpack
     
     # copy Boilerbuntu themes and files to `squashfs-root`
-    make install_boilerbuntu
+    make install
     
     # make your own changes in `squashfs-root` here
     
     # build the Boilerbuntu iso
-    make build_iso
+    make build
 
 ## Useful directories
 

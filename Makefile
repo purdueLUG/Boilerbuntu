@@ -75,7 +75,7 @@ verify_dependencies:
 	fi
 
 # unpack source_iso to squashfs-root
-unpack_iso: clean
+unpack: clean
 	# mount the iso
 	sudo mount -o loop $(source_iso) mnt
 
@@ -88,7 +88,7 @@ unpack_iso: clean
 	sudo chmod a+rwx -R squashfs-root
 
 # copy edited files into squashfs-root
-install_boilerbuntu:
+install:
 	cp boilerbuntu_source/Themes/logos/bunutu_2.png squashfs-root/usr/share/backgrounds
 	cp boilerbuntu_source/scripts/hdrive/* squashfs-root/usr/bin/
 	cp boilerbuntu_source/scripts/purdue_menu.py squashfs-root/usr/bin/

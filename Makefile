@@ -26,8 +26,9 @@ source_iso := ubuntu-17.04-beta2-desktop-amd64.iso
 # Generated iso
 target_iso := boilerbuntu-17.04-amd64.iso
 
-all: clean unpack_iso install_boilerbuntu build_iso
+all: clean unpack install build
 
+# delete build files and unmount iso
 clean:
 	# make empty dir `mnt` and unmount first if necessary
 	if [ -d mnt ]
@@ -103,7 +104,7 @@ install_boilerbuntu:
 	sed -i '/casper/d' extract-cd/casper/filesystem.manifest-desktop
 
 # create the boilerbuntu iso
-build_iso:
+build:
 	if [ -e extract-cd/casper/filesystem.squashfs ]
 	then
 			sudo rm extract-cd/casper/filesystem.squashfs
